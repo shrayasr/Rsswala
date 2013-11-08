@@ -1,4 +1,5 @@
 import feedparser
+import db
 
 class Fetch():
 
@@ -9,7 +10,7 @@ class Fetch():
         self.parsedFeed = feedparser.parse(feedURL)
 
     # Return information about the feed itself
-    def getFeedDetails(self):
+    def get_feed_details(self):
         
         thisFeed = self.parsedFeed['feed']
 
@@ -17,34 +18,34 @@ class Fetch():
         obj = {}
 
         # If the required keys exist, add them
-        #   else, throw out a blank
 
         obj['feed_url'] = self.feedURL
 
+        obj['title'] 
+        = obj['description'] 
+        = obj['link'] 
+        = ""
+
         if thisFeed.has_key('title'):
             obj['title'] = thisFeed['title']
-        else:
-            obj['title'] = ""
 
         if thisFeed.has_key('subtitle'):
             obj['description'] = thisFeed['subtitle']
-        else:
-            obj['description'] = ""
 
         if thisFeed.has_key('link'):
             obj['link'] = thisFeed['link']
-        else:
-            obj['link'] = ""
 
         # Return the object
         return obj
 
 
     # Return a list of dictionaries of the entries in the feed
-    def getEntries(self):
+    def get_entries(self):
 
         # declare an empty entities list
         entries = []
+
+        feed_id = db.get_feed_id(self.feedURL)
 
         # go through the list of entities present in the feed
         for entry in self.parsedFeed['entries']:
@@ -52,32 +53,30 @@ class Fetch():
             # Declare an empty object
             obj = {}
 
+            obj['feed_id'] = feed_id
+
+            obj['title'] 
+            = obj['description'] 
+            = obj['link'] 
+            = obj['guid'] 
+            = obj['pubdate'] 
+            = ""
+
             # If the keys exist, drop them in to the object
-            #   Else, throw out a blank string
             if entry.has_key('title'):
                 obj['title'] = entry['title']
-            else:
-                obj['title'] = ""
 
             if entry.has_key('description'):
                 obj['description'] = entry['description']
-            else:
-                obj['description'] = ""
 
             if entry.has_key('link'):
                 obj['link'] = entry['link']
-            else:
-                obj['link'] = ""
 
             if entry.has_key('published'):
                 obj['pubdate'] = entry['published']
-            else:
-                obj['pubdate'] = ""
 
             if entry.has_key('guid'):
                 obj['guid'] = entry['guid']
-            else:
-                obj['guid'] = ""
 
             # append the created object to the list of entries
             entries.append(obj)

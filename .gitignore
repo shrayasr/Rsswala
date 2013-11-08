@@ -1,6 +1,7 @@
 # Project specific
 env/
 *.db
+conf.py
 
 # Created by http://gitignore.io
 
