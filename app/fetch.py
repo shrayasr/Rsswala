@@ -21,10 +21,7 @@ class Fetch():
 
         obj['feed_url'] = self.feedURL
 
-        obj['title'] 
-        = obj['description'] 
-        = obj['link'] 
-        = ""
+        obj['title'] = obj['description'] = obj['link'] = ""
 
         if thisFeed.has_key('title'):
             obj['title'] = thisFeed['title']
@@ -55,12 +52,7 @@ class Fetch():
 
             obj['feed_id'] = feed_id
 
-            obj['title'] 
-            = obj['description'] 
-            = obj['link'] 
-            = obj['guid'] 
-            = obj['pubdate'] 
-            = ""
+            obj['title'] = obj['description'] = obj['link'] = obj['guid'] = obj['pubdate'] = ""
 
             # If the keys exist, drop them in to the object
             if entry.has_key('title'):
