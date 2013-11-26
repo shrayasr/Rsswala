@@ -1,5 +1,6 @@
 import feedparser
 import db
+from time import strftime 
 
 class Fetch():
 
@@ -18,7 +19,6 @@ class Fetch():
         obj = {}
 
         # If the required keys exist, add them
-
         obj['feed_url'] = self.feedURL
 
         obj['title'] = obj['description'] = obj['link'] = ""
@@ -42,12 +42,13 @@ class Fetch():
         # declare an empty entities list
         entries = []
 
+        # TODO: create feed if it doesn't exist
         feed_id = db.get_feed_id(self.feedURL)
 
         # go through the list of entities present in the feed
         for entry in self.parsedFeed['entries']:
 
-            # Declare an empty object
+            # Declare an empty dict 
             obj = {}
 
             obj['feed_id'] = feed_id
@@ -65,7 +66,9 @@ class Fetch():
                 obj['link'] = entry['link']
 
             if entry.has_key('published'):
-                obj['pubdate'] = entry['published']
+                # convert the datetime to mysql format
+                pub_datetime = entry['published_parsed']
+                obj['pubdate'] = strftime('%Y-%m-%d %H:%M:%S',pub_datetime)
 
             if entry.has_key('guid'):
                 obj['guid'] = entry['guid']
