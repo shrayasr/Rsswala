@@ -12,7 +12,7 @@ class Fetch():
 
     # Return information about the feed itself
     def get_feed_details(self):
-        
+
         thisFeed = self.parsedFeed['feed']
 
         # Declare an object
