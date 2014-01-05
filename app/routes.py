@@ -167,7 +167,7 @@ def feedItems(feedId):
     response.data = json.dumps(feedItemsList)
     return response
 
-@app.route("/feeds/<feedId>/items/<itemId>",methods=['POST'])
+@app.route("/feeds/items/<itemId>",methods=['POST'])
 def markItemAsRead(feedId,itemId):
 
     # If user isn't there in session, throw error
