@@ -121,7 +121,7 @@ def feeds():
 
 # /items    GET
 # Get the items for all users feeds
-@app.route("/items/")
+@app.route("/feeds/items/")
 def allItems():
 
     # If user isn't there in session, throw error
@@ -145,7 +145,7 @@ def allItems():
 
 # /items/<feed id>  GET
 # Get the items for THAT feed
-@app.route("/items/<feedId>")
+@app.route("/feeds/<feedId>/items/")
 def feedItems(feedId):
 
     # If user isn't there in session, throw error
