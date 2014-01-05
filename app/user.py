@@ -15,10 +15,21 @@ class User():
         if feed_id < 0 :
             feed_fetch = Fetch(feed_url)
             feed_id = db.create_new_feed(feed_fetch.get_feed_details())
+            db.add_new_item(feed_fetch.get_entries())
 
         user_feed_id = db.add_user_to_feed(self.uid,feed_id)
 
         return user_feed_id
+
+    def refresh_all_items(self):
+
+        items = db.get_all_feed_user_items(self.uid)
+        return items
+
+    def refresh_feed_items(self,feedid):
+
+        items = db.get_one_feed_user_items(self.uid,feedid)
+        return items
 
     def mark_item(self,item_id,read=True):
 

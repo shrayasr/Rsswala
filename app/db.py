@@ -61,6 +61,57 @@ def get_user_id(mail):
 
     return uid
 
+def get_one_feed_user_items(uid,feedid):
+    c = db.cursor()
+    c.execute("SELECT * from items where feed_id = %s and id not in (select item_id from user_read_items where user_id = %s)",(feedid,uid,uid,))
+
+    items = []
+    if c.rowcount > 0:
+        while True:
+            row = c.fetchone()
+            if row == None:
+                break
+
+            item = {
+                    "item_id":row[0],
+                    "feed_id":row[1],
+                    "title":row[2],
+                    "desc":row[3],
+                    "link":row[4],
+                    "guid":row[5],
+                    "pubdate":row[6]
+                    }
+
+            items.append(item)
+
+    return items
+
+def get_all_feed_user_items(uid):
+    c = db.cursor()
+    c.execute("SELECT * from items where feed_id in (select feed_id from user_feeds where user_id = %s) and id not in (select item_id from user_read_items where user_id = %s)",(uid,uid,))
+
+    items = []
+    if c.rowcount > 0:
+        while True:
+            row = c.fetchone()
+            if row == None:
+                break
+
+            item = {
+                    "item_id":row[0],
+                    "feed_id":row[1],
+                    "title":row[2],
+                    "desc":row[3],
+                    "link":row[4],
+                    "guid":row[5],
+                    "pubdate":row[6]
+                    }
+
+            items.append(item)
+
+    return items
+
+
 def create_new_user(mail):
     c = db.cursor()
     c.execute("INSERT INTO users(mail) VALUES(%s)",(mail,))
