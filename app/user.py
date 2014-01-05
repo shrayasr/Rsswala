@@ -9,6 +9,9 @@ class User():
         if self.uid < 0 :
             self.uid = db.create_new_user(mail)
 
+    def get_email(self):
+        return db.get_user_email(self.uid)
+
     def subscribe_to_feed(self,feed_url):
         feed_id = db.get_feed_id(feed_url) 
 
