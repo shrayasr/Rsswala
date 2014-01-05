@@ -15,7 +15,9 @@
 
 ##Installation
 * Clone the repo
+* Start MySQL instance
 * `cd rsswala`
+* `mysql -u <USERNAME> -p < rsswala.sql`
 * `virtualenv env`
 * `source env/bin/activate`
 * `pip install -r requirements.txt`
