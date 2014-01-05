@@ -29,3 +29,4 @@
 * Get UI up and running
 * Write tests
 * Setup travisCI
+* Comment code
