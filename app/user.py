@@ -29,12 +29,17 @@ class User():
 
         return user_feed_id
 
-    def refresh_all_items(self):
+    def get_feed_list(self):
+        
+        feeds = db.get_feed_list(self.uid)
+        return feeds
+
+    def get_all_items(self):
 
         items = db.get_all_feed_user_items(self.uid)
         return items
 
-    def refresh_feed_items(self,feedid):
+    def get_feed_items(self,feedid):
 
         items = db.get_one_feed_user_items(self.uid,feedid)
         return items

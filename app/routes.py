@@ -1,4 +1,5 @@
-from flask import request,session
+from flask import request,session,make_response
+import json
 
 from app import conf as config
 from app import app
@@ -65,3 +66,75 @@ def logout():
     session.clear()
 
     return "logged out "+email
+
+# /feeds    GET
+# Gets the list of feeds associated to the user
+@app.route("/feeds/")
+def feeds():
+
+    # If user isn't there in session, throw error
+    if 'user' not in session:
+        return "not logged in"
+
+    # Pick up the email
+    email = session['user']
+
+    # Get the user object
+    user = User(email)
+
+    # Get the feed list
+    feedList = user.get_feed_list()
+
+    # Make a JSON repsonse and return it
+    response = make_response()
+    response.mimetype="application/json"
+    response.data = json.dumps(feedList)
+    return response
+
+# /items    GET
+# Get the items for all users feeds
+@app.route("/items/")
+def allItems():
+
+    # If user isn't there in session, throw error
+    if 'user' not in session:
+        return "not logged in"
+
+    # Pick up the user
+    email = session['user']
+
+    # Get the user object
+    user = User(email)
+
+    # Get the list of all items
+    allItemsList = user.get_all_items()
+
+    # Make a JSON response and return it
+    response = make_response()
+    response.mimetype="application/json"
+    response.data = json.dumps(allItemsList)
+    return response
+
+# /items/<feed id>  GET
+# Get the items for THAT feed
+@app.route("/items/<feedId>")
+def feedItems(feedId):
+
+    # If user isn't there in session, throw error
+    if 'user' not in session:
+        return "not logged in"
+
+    # Pick up the email
+    email = session['user']
+
+    # Get a user object
+    user = User(email)
+
+    # Get the list of items for that feed
+    feedItemsList = user.get_feed_items(feedId)
+
+    # Make a JSON response and return it
+    response = make_response()
+    response.mimetype="application/json"
+    response.data = json.dumps(feedItemsList)
+    return response

@@ -1,7 +1,9 @@
 import conf
 import MySQLdb
+import datetime
 
-db = MySQLdb.connect(user=conf.MYSQL_USER,passwd=conf.MYSQL_PASS,db=conf.MYSQL_DB,charset='utf8')
+db = MySQLdb.connect(user=conf.MYSQL_USER,passwd=conf.MYSQL_PASS,
+        db=conf.MYSQL_DB,charset='utf8')
 
 # insert a new feed data
 def create_new_feed(data):
@@ -63,7 +65,9 @@ def get_user_id(mail):
 
 def get_one_feed_user_items(uid,feedid):
     c = db.cursor()
-    c.execute("SELECT * from items where feed_id = %s and id not in (select item_id from user_read_items where user_id = %s)",(feedid,uid,uid,))
+    c.execute("""SELECT * from items where feed_id = %s and id not in 
+            (select item_id from user_read_items where user_id = %s)""",
+            (feedid,uid,))
 
     items = []
     if c.rowcount > 0:
@@ -79,7 +83,7 @@ def get_one_feed_user_items(uid,feedid):
                     "desc":row[3],
                     "link":row[4],
                     "guid":row[5],
-                    "pubdate":row[6]
+                    "pubdate":str(row[6])
                     }
 
             items.append(item)
@@ -88,7 +92,9 @@ def get_one_feed_user_items(uid,feedid):
 
 def get_all_feed_user_items(uid):
     c = db.cursor()
-    c.execute("SELECT * from items where feed_id in (select feed_id from user_feeds where user_id = %s) and id not in (select item_id from user_read_items where user_id = %s)",(uid,uid,))
+    c.execute("""SELECT * from items where feed_id in (select feed_id from 
+            user_feeds where user_id = %s) and id not in (select item_id from 
+            user_read_items where user_id = %s)""",(uid,uid,))
 
     items = []
     if c.rowcount > 0:
@@ -104,12 +110,36 @@ def get_all_feed_user_items(uid):
                     "desc":row[3],
                     "link":row[4],
                     "guid":row[5],
-                    "pubdate":row[6]
+                    "pubdate":str(row[6])
                     }
 
             items.append(item)
 
     return items
+
+def get_feed_list(uid):
+    c = db.cursor()
+    c.execute("""select * from feeds as f inner join user_feeds as uf on f.id =
+            uf.feed_id where uf.`user_id` = %s""",(uid,))
+
+    feeds = []
+    if c.rowcount > 0:
+        while True:
+            row = c.fetchone()
+            if row == None:
+               break
+
+            feed = {
+                    "feed_id"   :row[0],
+                    "feed_url"  :row[1],
+                    "title"     :row[2],
+                    "desc"      :row[3],
+                    "link"      :row[4]
+                    }
+
+            feeds.append(feed)
+
+    return feeds
 
 
 def create_new_user(mail):
@@ -122,7 +152,8 @@ def create_new_user(mail):
 
 def add_user_to_feed(uid,feed_id):
     c = db.cursor()
-    c.execute("INSERT INTO user_feeds(user_id,feed_id) VALUES(%s,%s)",(uid,feed_id))
+    c.execute("INSERT INTO user_feeds(user_id,feed_id) VALUES(%s,%s)",
+            (uid,feed_id))
 
     db.commit()
 
@@ -130,7 +161,8 @@ def add_user_to_feed(uid,feed_id):
 
 def delete_read_item(uid,item_id):
     c = db.cursor()
-    c.execute("DELETE FROM user_read_items WHERE user_id = %s AND item_id = %s",(uid,item_id))
+    c.execute("DELETE FROM user_read_items WHERE user_id = %s AND item_id = %s",
+            (uid,item_id))
 
     db.commit()
 
@@ -138,7 +170,8 @@ def delete_read_item(uid,item_id):
 
 def add_read_item(uid,item_id):
     c = db.cursor()
-    c.execute("INSERT INTO user_read_items(user_id,item_id) VALUES(%s,%s)",(uid,item_id))
+    c.execute("INSERT INTO user_read_items(user_id,item_id) VALUES(%s,%s)",
+            (uid,item_id))
 
     db.commit()
 
