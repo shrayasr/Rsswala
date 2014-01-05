@@ -5,6 +5,7 @@ from app import conf as config
 from app import app
 from user import User
 
+# /     GET
 # Welcome them to rsswala
 @app.route("/")
 def hello():
@@ -69,7 +70,7 @@ def logout():
 
 # /feeds    GET
 # Gets the list of feeds associated to the user
-@app.route("/feeds/")
+@app.route("/feeds/",methods=['GET','POST'])
 def feeds():
 
     # If user isn't there in session, throw error
@@ -82,14 +83,41 @@ def feeds():
     # Get the user object
     user = User(email)
 
-    # Get the feed list
-    feedList = user.get_feed_list()
+    if request.method == 'GET':
 
-    # Make a JSON repsonse and return it
-    response = make_response()
-    response.mimetype="application/json"
-    response.data = json.dumps(feedList)
-    return response
+        # Get the feed list
+        feedList = user.get_feed_list()
+
+        # Make a JSON repsonse and return it
+        response = make_response()
+        response.mimetype="application/json"
+        response.data = json.dumps(feedList)
+        return response
+
+    elif request.method == 'POST':
+        
+        # Pick up the required details
+        feedURL = request.form['feed_url']
+
+        # If the length of the feed URL is = 0, bump them out
+        if len(feedURL.strip()) == 0:
+            return "Feed URL empty"
+        
+        # Subscribe the user to the feed
+        feedID = user.subscribe_to_feed(feedURL)
+        
+        # Create a response object
+        responseObj = {
+                "feed_id":feedID
+                }
+
+        # Make a JSON repsonse and return it
+        response = make_response()
+        response.mimetype="application/json"
+        response.data = json.dumps(responseObj)
+        return response
+
+
 
 # /items    GET
 # Get the items for all users feeds
@@ -138,3 +166,4 @@ def feedItems(feedId):
     response.mimetype="application/json"
     response.data = json.dumps(feedItemsList)
     return response
+
