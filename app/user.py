@@ -9,6 +9,11 @@ class User():
         if self.uid < 0 :
             self.uid = db.create_new_user(mail)
 
+    def __str__(self):
+        return {
+                "uid":self.uid
+                }
+
     def get_email(self):
         return db.get_user_email(self.uid)
 
