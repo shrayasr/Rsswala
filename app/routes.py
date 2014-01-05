@@ -167,3 +167,35 @@ def feedItems(feedId):
     response.data = json.dumps(feedItemsList)
     return response
 
+@app.route("/feeds/<feedId>/items/<itemId>",methods=['POST'])
+def markItemAsRead(feedId,itemId):
+
+    # If user isn't there in session, throw error
+    if 'user' not in session:
+        return "not logged in"
+
+    # Pick up the email
+    email = session['user']
+
+    # Get a user object
+    user = User(email)
+
+    # Mark that item as read
+    markID = user.mark_item(itemId)
+
+    # Assume that it has been marked to true
+    markStatus = True
+    if markID == -1:
+        # Until told otherwise
+        markStatus = False
+
+    # Create a response object
+    responseObj = {
+            "mark_as_read":markStatus
+            }
+
+    # Make a JSON repsonse and return it
+    response = make_response()
+    response.mimetype="application/json"
+    response.data = json.dumps(responseObj)
+    return response
