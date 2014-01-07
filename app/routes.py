@@ -1,5 +1,6 @@
-from flask import request,session,make_response
 import json
+
+from flask import request,session,make_response,send_file
 
 from app import conf as config
 from app import app
@@ -8,8 +9,9 @@ from user import User
 # /     GET
 # Welcome them to rsswala
 @app.route("/")
-def hello():
-    return "Welcome to rsswala"
+def index():
+  return send_file('static/index.html')
+    
 
 # /login     POST
 # Logs the person into rsswala
