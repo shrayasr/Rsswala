@@ -168,7 +168,7 @@ def feedItems(feedId):
     return response
 
 @app.route("/feeds/items/<itemId>",methods=['POST'])
-def markItemAsRead(feedId,itemId):
+def markItemAsRead(itemId):
 
     # If user isn't there in session, throw error
     if 'user' not in session:
