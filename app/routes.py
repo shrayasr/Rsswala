@@ -1,10 +1,12 @@
 import json
 
 from flask import request,session,make_response,send_file
+from werkzeug import secure_filename
 
 from app import conf as config
 from app import app
 from user import User
+from opml import OpmlParser
 
 # /     GET
 # Welcome them to rsswala
@@ -203,3 +205,34 @@ def markItemAsRead(itemId):
     response.mimetype="application/json"
     response.data = json.dumps(responseObj)
     return response
+
+# /import POST
+# Import a OPML file and add feeds
+@app.route("/import/",methods=['POST'])
+def importOPML():
+
+    # If user isn't there in session, throw error
+    if 'user' not in session:
+        return "not logged in"
+
+    if 'opml_file' not in request.files:
+        return "Required data not present"
+
+    # Pick up the email
+    email = session['user']
+
+    # Get a user object
+    user = User(email)
+    uid = user.get_uid()
+
+    f = request.files['opml_file']
+    fileDestination = config.UPLOAD_FOLDER + str(uid) + "_" + secure_filename(f.filename)
+    f.save(fileDestination)
+
+    opmlParser = OpmlParser(fileDestination)
+    feedURLs = opmlParser.parse()
+
+    for feedURL in feedURLs:
+        user.subscribe_to_feed(feedURL)
+
+    return "success: " + str(len(feedURLs))
