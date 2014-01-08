@@ -1,7 +1,9 @@
 #Rsswala
-> The ever-so-simple RSS reader (or at least thats what we think it is)
+> The ever-so-simple RSS reader (or at least thats what we think it is)  
 
-##Authors
+***Ideated during the 2013 Aaron Swartz Day [Hacknight](https://hacknight.in/hasgeek/2013-aaron-swartz-day/projects/2-rsswala) organized by [HasGeek](https://github.com/hasgeek)***
+
+##Contributors
 * [VK](https://github.com/vkarthik26) 
 * [Me](https://github.com/shrayas)
 
