@@ -169,6 +169,8 @@ def feedItems(feedId):
     response.data = json.dumps(feedItemsList)
     return response
 
+# /feeds/items/<item id> POST
+# Mark that item as read
 @app.route("/feeds/items/<itemId>",methods=['POST'])
 def markItemAsRead(itemId):
 
