@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS `feeds`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `feeds` (
-  `id` bigint(32) NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `feed_url` text COLLATE utf8_bin NOT NULL,
   `title` text COLLATE utf8_bin,
   `description` text COLLATE utf8_bin,
@@ -42,14 +42,16 @@ DROP TABLE IF EXISTS `items`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `items` (
-  `id` bigint(32) NOT NULL AUTO_INCREMENT,
-  `feed_id` bigint(32) DEFAULT NULL,
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `feed_id` bigint(20) unsigned DEFAULT NULL,
   `title` text COLLATE utf8_bin,
   `description` text COLLATE utf8_bin,
   `link` text COLLATE utf8_bin,
   `guid` text COLLATE utf8_bin,
+  `guid_hash` char(32) COLLATE utf8_bin DEFAULT NULL,
   `pubdate` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `guid_hash_UNIQUE` (`guid_hash`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -61,8 +63,8 @@ DROP TABLE IF EXISTS `user_feeds`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user_feeds` (
-  `user_id` int(11) NOT NULL,
-  `feed_id` bigint(32) NOT NULL,
+  `user_id` bigint(20) unsigned NOT NULL,
+  `feed_id` bigint(20) unsigned NOT NULL,
   `subscription_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -75,8 +77,8 @@ DROP TABLE IF EXISTS `user_read_items`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user_read_items` (
-  `user_id` int(11) NOT NULL,
-  `item_id` bigint(32) NOT NULL,
+  `user_id` bigint(20) unsigned NOT NULL,
+  `item_id` bigint(20) unsigned NOT NULL,
   `read_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -89,7 +91,7 @@ DROP TABLE IF EXISTS `users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `mail` varchar(255) COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
@@ -104,4 +106,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-11-28 13:55:14
+-- Dump completed on 2014-01-08 21:42:28
