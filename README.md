@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/shrayas/Rsswala.png?branch=opml-parser)](https://travis-ci.org/shrayas/Rsswala)
+
 #Rsswala
 > The ever-so-simple RSS reader (or at least thats what we think it is)  
 
