@@ -30,7 +30,7 @@
 * `python run.py`
 
 ##TODO
-* Get UI up and running
+* ~~Get basic UI up and running~~
 * Write tests
 * Setup travisCI
 * Comment code
