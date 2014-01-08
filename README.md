@@ -30,7 +30,4 @@
 * `python run.py`
 
 ##TODO
-* ~~Get basic UI up and running~~
-* Write tests
-* Setup travisCI
-* Comment code
+Check [issues](https://github.com/shrayas/Rsswala/issues)
