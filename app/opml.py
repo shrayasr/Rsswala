@@ -48,7 +48,7 @@ class OpmlParser:
 
                 # Parse those children, and extend the current list of 
                 # feedURLs with the one that is returned
-                outlineFeedURLs.extend(self.parseOutline(outline))
+                outlineFeedURLs.extend(self.parseOutlines(outline))
 
             # If they dont have children,
             else:
