@@ -6,7 +6,11 @@ class Fetch():
 
     # Initialze the Fetch class with the feed url
     #   additionally, parse out the URL and get a parsed feed
-    def __init__(self,feedURL):
+    def __init__(self,feedURL=None):
+
+        if feedURL == None or len(feedURL.strip()) == 0:
+            raise KeyError('Please supply a feedURL')
+
         self.feedURL = feedURL
         self.parsedFeed = feedparser.parse(feedURL)
 
@@ -21,7 +25,7 @@ class Fetch():
         # If the required keys exist, add them
         obj['feed_url'] = self.feedURL
 
-        obj['title'] = obj['description'] = obj['link'] = ""
+        obj['title'] = obj['description'] = obj['link'] = None
 
         if thisFeed.has_key('title'):
             obj['title'] = thisFeed['title']
