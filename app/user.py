@@ -17,9 +17,6 @@ class User():
     def get_email(self):
         return db.get_user_email(self.uid)
 
-    def get_uid(self):
-        return self.uid
-
     def subscribe_to_feed(self,feed_url):
         feed_id = db.get_feed_id(feed_url) 
 
