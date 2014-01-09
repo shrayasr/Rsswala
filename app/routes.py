@@ -224,7 +224,7 @@ def importOPML():
 
     # Get a user object and get the user ID
     user = User(email)
-    uid = user.get_uid()
+    uid = user.uid
 
     # Pick up the file
     f = request.files['opml_file']
