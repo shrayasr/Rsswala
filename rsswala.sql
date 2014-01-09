@@ -1,8 +1,6 @@
-CREATE DATABASE  IF NOT EXISTS `rsswala` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_bin */;
-USE `rsswala`;
 -- MySQL dump 10.13  Distrib 5.5.34, for debian-linux-gnu (x86_64)
 --
--- Host: 127.0.0.1    Database: rsswala
+-- Host: localhost    Database: rsswala
 -- ------------------------------------------------------
 -- Server version	5.5.34-0ubuntu0.13.10.1
 
@@ -45,7 +43,7 @@ CREATE TABLE `items` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `feed_id` bigint(20) unsigned DEFAULT NULL,
   `title` text COLLATE utf8_bin,
-  `description` text COLLATE utf8_bin,
+  `description` mediumtext COLLATE utf8_bin,
   `link` text COLLATE utf8_bin,
   `guid` text COLLATE utf8_bin,
   `guid_hash` char(32) COLLATE utf8_bin DEFAULT NULL,
@@ -106,4 +104,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-01-08 21:42:28
+-- Dump completed on 2014-01-09 22:55:00
