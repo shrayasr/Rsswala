@@ -53,7 +53,7 @@ class Fetch():
 
             obj['feed_id'] = feed_id
 
-            obj['title'] = obj['description'] = obj['link'] = obj['guid'] = obj['pubdate'] = ""
+            obj['title'] = obj['description'] = obj['link'] = obj['guid'] = obj['pubdate'] = None
 
             # If the keys exist, drop them in to the object
             if entry.has_key('title'):
