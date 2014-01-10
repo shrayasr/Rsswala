@@ -13,11 +13,14 @@
       <div class="container">
         <h1>rsswala</h1>
         <hr/>
-        <ul ng-controller="itemsCtrl">
-          <li ng-repeat="item in items">
-            <a target="_blank" ng-href="{{item.link}}">{{item.title}}</a>
+        <div ng-controller="itemsCtrl">
+        <ul ng-repeat="item in items">
+            <h3>{{item.title}}</h3>
+          <li ng-repeat="item_data in item.item_data">
+            <a target="_blank" ng-href="{{item_data.link}}">{{item_data.title}}</a>
           </li>
         </ul>
+        </div>
       </div>
   </body>
 </html>
