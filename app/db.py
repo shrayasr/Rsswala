@@ -92,28 +92,44 @@ def get_one_feed_user_items(uid,feedid):
 
 def get_all_feed_user_items(uid):
     c = db.cursor()
-    c.execute("""SELECT * from items where feed_id in (select feed_id from 
-            user_feeds where user_id = %s) and id not in (select item_id from 
-            user_read_items where user_id = %s)""",(uid,uid,))
+    c.execute("""SELECT 
+            i.id AS id, i.title AS title, i.link AS link, f.title AS feed_title, f.id AS feed_id
+            FROM items i 
+            JOIN feeds f 
+            ON f.id = i.feed_id 
+            JOIN user_feeds uf 
+            ON uf.feed_id = f.id 
+            LEFT OUTER JOIN user_read_items uri 
+            ON uri.item_id = i.id 
+            WHERE uf.user_id = %s 
+            AND uri.item_id is NULL
+            ORDER BY i.pubdate DESC
+            """,(uid,))
 
     items = []
+    prev_feed = -1
     if c.rowcount > 0:
         while True:
             row = c.fetchone()
             if row == None:
                 break
 
-            item = {
+            feed_id = row[4]
+            item_data = {                    
                     "item_id":row[0],
-                    "feed_id":row[1],
-                    "title":row[2],
-                    "desc":row[3],
-                    "link":row[4],
-                    "guid":row[5],
-                    "pubdate":str(row[6])
+                    "title":row[1],
+                    "link":row[2]
                     }
-
-            items.append(item)
+            
+            if prev_feed != row[4]:
+                feed_data = {
+                        "title": row[3],
+                        "item_data": [item_data]
+                        }
+                items.append(feed_data)
+                prev_feed = row[4]
+            else:
+                items[-1]["item_data"].append(item_data)
 
     return items
 
