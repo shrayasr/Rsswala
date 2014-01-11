@@ -28,21 +28,22 @@ def create_new_feed(data):
 def add_new_item(items):
     c = db.cursor()
 
-    c.executemany("""INSERT INTO 
-        items(feed_id,title,description,link,guid,pubdate)
-        VALUES(%s,%s,%s,%s,%s,%s)""",
+    c.executemany("""INSERT IGNORE INTO 
+        items(feed_id,title,description,link,guid,guid_hash,pubdate)
+        VALUES(%s,%s,%s,%s,%s,%s,%s)""",
         [(
             item['feed_id']
             ,item['title']
             ,item['description']
             ,item['link']
             ,item['guid']
+            ,item['guid_hash']
             ,item['pubdate']
             ) for item in items])
 
     db.commit()
 
-# get the feed_id of an existing feed_id
+# feed: get the id of an existing url
 def get_feed_id(feed_url):
     c = db.cursor()
     c.execute("SELECT id FROM feeds WHERE feed_url = %s",(feed_url,))
@@ -103,7 +104,7 @@ def get_all_feed_user_items(uid):
             ON uri.item_id = i.id 
             WHERE uf.user_id = %s 
             AND uri.item_id is NULL
-            ORDER BY i.pubdate DESC
+            ORDER BY i.feed_id,i.pubdate DESC
             """,(uid,))
 
     items = []
@@ -168,7 +169,8 @@ def create_new_user(mail):
 
 def add_user_to_feed(uid,feed_id):
     c = db.cursor()
-    c.execute("INSERT INTO user_feeds(user_id,feed_id) VALUES(%s,%s)",
+# insert ignores if user is already part of a feed
+    c.execute("INSERT IGNORE INTO user_feeds(user_id,feed_id) VALUES(%s,%s)",
             (uid,feed_id))
 
     db.commit()
