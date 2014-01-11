@@ -1,6 +1,7 @@
 import feedparser
 import db
-from time import strftime 
+import hashlib
+from time import strftime
 
 class Fetch():
 
@@ -74,8 +75,14 @@ class Fetch():
                 pub_datetime = entry['published_parsed']
                 obj['pubdate'] = strftime('%Y-%m-%d %H:%M:%S',pub_datetime)
 
+            # guid is a part of the newer rss specification, it doesn't exists we'll just use a link
             if entry.has_key('guid'):
                 obj['guid'] = entry['guid']
+            else:
+                obj['guid'] = obj['link']
+
+            # the hash of the guid is used to check for duplicates
+            obj['guid_hash'] = hashlib.md5(obj['guid']).hexdigest()
 
             # append the created object to the list of entries
             entries.append(obj)
