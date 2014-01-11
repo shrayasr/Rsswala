@@ -3,9 +3,11 @@
 
 ***Ideated during the 2013 Aaron Swartz Day [Hacknight](https://hacknight.in/hasgeek/2013-aaron-swartz-day/projects/2-rsswala) organized by [HasGeek](https://github.com/hasgeek)***
 
-##BOOM.
+---
 
 ![screeie](https://raw.github.com/shrayas/rsswala/master/rsswala.png)
+
+---
 
 ##Contributors
 * [VK](https://github.com/vkarthik26) 
