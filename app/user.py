@@ -27,7 +27,7 @@ class User():
 
         user_feed_id = db.add_user_to_feed(self.uid,feed_id)
 
-        return user_feed_id
+        return feed_id 
 
     def get_feed_list(self):
         

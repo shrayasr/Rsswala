@@ -1,23 +1,35 @@
 <!DOCTYPE html>
+<!--
+                            _       
+ _ __ ___ _____      ____ _| | __ _ 
+| '__/ __/ __\ \ /\ / / _` | |/ _` |
+| |  \__ \__ \\ V  V / (_| | | (_| |
+|_|  |___/___/ \_/\_/ \__,_|_|\__,_|
+                                    
+-->
 <html ng-app="rsswala">
   <head>
     <link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css" />
-    <script src="static/js/jquery.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular-route.min.js"></script>
     <script src="static/js/bootstrap.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular-route.js"></script>
     <script src="static/js/indexcontroller.js"></script>
+    <title>Rsswala</title>
   </head>
 
   <body>
       <div class="container">
-        <h1>rsswala</h1>
+              <h1><a href='/'>Rsswala</a></h1>
         <hr/>
-        <ul ng-controller="itemsCtrl">
-          <li ng-repeat="item in items">
-            <a target="_blank" ng-href="{{item.link}}">{{item.title}}</a>
+        <div ng-controller="itemsCtrl">
+        <ul ng-repeat="item in items">
+            <h3>{{item.title}}</h3>
+          <li ng-repeat="item_data in item.item_data">
+            <a target="_blank" ng-href="{{item_data.link}}">{{item_data.title}}</a>
           </li>
         </ul>
+        </div>
       </div>
   </body>
 </html>

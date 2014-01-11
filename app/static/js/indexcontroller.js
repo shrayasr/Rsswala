@@ -14,7 +14,6 @@ function itemsCtrl($scope, $http) {
         url:'/feeds/items'
 
       }).success(
-
           function(data, status, headers, config) {
             $scope.items = data;
           }

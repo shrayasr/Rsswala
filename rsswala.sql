@@ -63,7 +63,8 @@ DROP TABLE IF EXISTS `user_feeds`;
 CREATE TABLE `user_feeds` (
   `user_id` bigint(20) unsigned NOT NULL,
   `feed_id` bigint(20) unsigned NOT NULL,
-  `subscription_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+  `subscription_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE KEY `user_feed_INDEX` (`user_id`,`feed_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -104,4 +105,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-01-09 22:55:00
+-- Dump completed on 2014-01-11 17:26:55
