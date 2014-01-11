@@ -20,8 +20,8 @@ fi
 PASS=""
 
 if [ -n "$2" ]; then
-    PASS="-p$2"
+    PASS=-p"$2"
 fi
 
-$MYSQLDUMP -u"$1" -p"$2" --no-data rsswala | sed 's/ AUTO_INCREMENT=[0-9]*\b//' > ./rsswala.sql
+$MYSQLDUMP -u"$1" $PASS --no-data rsswala | sed 's/ AUTO_INCREMENT=[0-9]*\b//' > ./rsswala.sql
 
