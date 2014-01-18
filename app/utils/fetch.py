@@ -1,91 +1,81 @@
 import feedparser
-import app.db
 import hashlib
 from time import strftime
+
+from app.models.feed import Feed
+from app.models.item import Item
+
 
 class Fetch():
 
     # Initialze the Fetch class with the feed url
     #   additionally, parse out the URL and get a parsed feed
-    def __init__(self,feedURL=None):
+    def __init__(self, feed_id, feed_url=None):
 
-        if feedURL == None or len(feedURL.strip()) == 0:
+        if feed_url == None or len(feed_url.strip()) == 0:
             raise KeyError('Please supply a feedURL')
 
-        self.feedURL = feedURL
-        self.parsedFeed = feedparser.parse(feedURL)
+        self.feed_url = feed_url
+        self.feed_id = feed_id
+        self.feed = None
+        self.items = []
+        self.parsed_feed = feedparser.parse(feed_url)
+
+        if self.parsed_feed['bozo'] == 1:
+            raise KeyError('Bad URL')
+
+        self.get_feed_details()
+        self.get_entries()
 
     # Return information about the feed itself
     def get_feed_details(self):
 
-        thisFeed = self.parsedFeed['feed']
+        thisFeed = self.parsed_feed['feed']
 
-        # Declare an object
-        obj = {}
-
-        # If the required keys exist, add them
-        obj['feed_url'] = self.feedURL
-
-        obj['title'] = obj['description'] = obj['link'] = None
+        self.feed = Feed(self.feed_url)
 
         if thisFeed.has_key('title'):
-            obj['title'] = thisFeed['title']
+            self.feed.title = thisFeed['title']
 
         if thisFeed.has_key('subtitle'):
-            obj['description'] = thisFeed['subtitle']
+            self.feed.description = thisFeed['subtitle']
 
         if thisFeed.has_key('link'):
-            obj['link'] = thisFeed['link']
-
-        # Return the object
-        return obj
+            self.feed.link = thisFeed['link']
 
 
     # Return a list of dictionaries of the entries in the feed
     def get_entries(self):
 
-        # declare an empty entities list
-        entries = []
-
-        # TODO: create feed if it doesn't exist
-        feed_id = db.get_feed_id(self.feedURL)
-
         # go through the list of entities present in the feed
-        for entry in self.parsedFeed['entries']:
+        for entry in self.parsed_feed['entries']:
 
-            # Declare an empty dict 
-            obj = {}
-
-            obj['feed_id'] = feed_id
-
-            obj['title'] = obj['description'] = obj['link'] = obj['guid'] = obj['pubdate'] = None
+            item = Item(self.feed_id)
 
             # If the keys exist, drop them in to the object
             if entry.has_key('title'):
-                obj['title'] = entry['title']
+                item.title = entry['title']
 
             if entry.has_key('description'):
-                obj['description'] = entry['description']
+                item.description = entry['description']
 
             if entry.has_key('link'):
-                obj['link'] = entry['link']
+                item.link = entry['link']
 
             if entry.has_key('published'):
                 # convert the datetime to mysql format
                 pub_datetime = entry['published_parsed']
-                obj['pubdate'] = strftime('%Y-%m-%d %H:%M:%S',pub_datetime)
+                item.pubdate = strftime('%Y-%m-%d %H:%M:%S',pub_datetime)
 
             # guid is a part of the newer rss specification, it doesn't exists we'll just use a link
             if entry.has_key('guid'):
-                obj['guid'] = entry['guid']
+                item.guid = entry['guid']
             else:
-                obj['guid'] = obj['link']
+                item.guid = item.link
 
             # the hash of the guid is used to check for duplicates
-            obj['guid_hash'] = hashlib.md5(obj['guid']).hexdigest()
+            item.guid_hash = hashlib.md5(item.guid).hexdigest()
 
             # append the created object to the list of entries
-            entries.append(obj)
+            self.items.append(item)
 
-        # return the entries
-        return entries
