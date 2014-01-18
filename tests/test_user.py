@@ -1,7 +1,7 @@
 from app.data_mappers.userDM import UserDM
 from app.models.user import User
 
-def test_create_new_user():
+def test_01_create_new_user():
     email = "test@test.com"
     password = "test1234"
 
@@ -14,7 +14,7 @@ def test_create_new_user():
     else:
         assert False
 
-def test_get_user():
+def test_02_get_user():
     email = "test@test.com"
     
     userDM = UserDM()
@@ -25,7 +25,7 @@ def test_get_user():
     else:
         assert False
 
-def test_modify_user_password():
+def test_03_modify_user_password():
     email = "test@test.com"
     oldpassword = "test1234"
     newpassword = "touching1234"
@@ -38,7 +38,7 @@ def test_modify_user_password():
     else:
         assert False
 
-def test_delete_user():
+def test_04_delete_user():
     email = "test@test.com"
 
     userDM = UserDM()
@@ -48,4 +48,3 @@ def test_delete_user():
         assert True
     else:
         assert False
-

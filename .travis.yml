@@ -2,6 +2,12 @@ language: python
 python:
   - "2.7"
 
+# Before
+before_script:
+  - mysql -u travis -e 'create database rsswala;'
+  - mysql -u travis rsswala < rsswala.sql
+  - cp instance/conf.travis.py instance/conf.py
+
 # command to install dependencies
 install: "pip install -r requirements.txt"
 
