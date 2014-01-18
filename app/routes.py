@@ -3,10 +3,10 @@ import json
 from flask import request,session,make_response,send_file
 from werkzeug import secure_filename
 
-from app import conf as config
+from instance import conf as config
 from app import app
 from user import User
-from opml import OpmlParser
+from app.utils.opml import OpmlParser
 
 # /     GET
 # Welcome them to rsswala

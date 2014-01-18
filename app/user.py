@@ -1,5 +1,5 @@
 import db
-from fetch import Fetch
+from app.utils.fetch import Fetch
 
 class User():
 

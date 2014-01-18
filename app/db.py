@@ -1,4 +1,4 @@
-import conf
+from instance import conf
 import MySQLdb
 import datetime
 

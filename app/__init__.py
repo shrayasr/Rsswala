@@ -1,5 +1,5 @@
 from flask import Flask
-from app import conf as config
+from instance import conf as config
 
 # Create an instance of flask
 app = Flask(__name__)

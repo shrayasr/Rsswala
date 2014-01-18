@@ -1,5 +1,5 @@
 import feedparser
-import db
+import app.db
 import hashlib
 from time import strftime
 
