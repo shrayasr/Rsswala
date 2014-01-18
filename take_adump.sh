@@ -3,7 +3,12 @@
 # takes a mysqldump of the rsswala database
 # stripsoff the autoincrement values
 
-MYSQLDUMP="/usr/bin/mysqldump"
+MYSQLDUMP=$(which mysqldump)
+
+if [ $? != 0 ]; then
+  echo "mysqldump not found, is it in your path?"
+  exit 1
+fi
 
 display_help ()
 {
@@ -13,11 +18,12 @@ display_help ()
 if [[ -z "$1" ]]; then
     display_help
 fi
+
 if [ "$1" = "help" ]; then
     display_help
 fi
 
-PASS=""
+PASS="-p"
 
 if [ -n "$2" ]; then
     PASS=-p"$2"
