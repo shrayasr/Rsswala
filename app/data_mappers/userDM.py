@@ -38,7 +38,7 @@ class UserDM():
         user = None
         try:
             c = self.db.cursor()
-            c.execute("SELECT * FROM USERS where email = %s",(email,))
+            c.execute("SELECT * FROM users where email = %s",(email,))
 
             if c.rowcount > 0:
                 row = c.fetchone()
@@ -56,7 +56,7 @@ class UserDM():
     def delete(self, email):
         try:
             c = self.db.cursor()
-            c.execute("DELETE from USERS where email = %s",(email,))
+            c.execute("DELETE from users where email = %s",(email,))
 
             success = False
 
