@@ -3,7 +3,10 @@ import xml.etree.ElementTree as e
 class OpmlParser:
 
     # Initialize the class with the path to the OPML file
-    def __init__(self,opmlFilePath):
+    def __init__(self,opmlFilePath=None):
+
+        if opmlFilePath == None or len(opmlFilePath.strip()) == 0:
+            raise KeyError("OPML file path required")
 
         # It parses the OPML file and stores the tree
         self.tree = e.parse(opmlFilePath)
@@ -15,20 +18,24 @@ class OpmlParser:
     # Parse the OPML file and return the list of links
     def parse(self):
 
-        # From the tree, get the root of the XML
-        root = self.tree.getroot()
+        try:
+            # From the tree, get the root of the XML
+            root = self.tree.getroot()
 
-        # Pick up the "body" tag
-        body = root.findall('body')[0]
+            # Pick up the "body" tag
+            body = root.findall('body')[0]
 
-        # Get all instances of "outline" tags
-        outlines = body.findall('outline')
+            # Get all instances of "outline" tags
+            outlines = body.findall('outline')
 
-        # Parse the outlines and get a list of feed urls
-        self.feedUrls = self.parseOutlines(outlines)
+            # Parse the outlines and get a list of feed urls
+            self.feedUrls = self.parseOutlines(outlines)
 
-        # Return the list of feed URLs
-        return self.feedUrls
+            # Return the list of feed URLs
+            return self.feedUrls
+
+        except Exception:
+            raise Exception("Malformed XML")
         
     # Parse the outlines. There can be outlines within outlines and hence this
     # is a RECURSIVE function
