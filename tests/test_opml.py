@@ -46,7 +46,7 @@ def teardown_xml():
     os.remove("test.xml")
 
 
-def test_opml_no_xml():
+def test_01_opml_no_xml():
 
     try:
         opml = OpmlParser()
@@ -56,7 +56,7 @@ def test_opml_no_xml():
         assert False
 
 @with_setup(setup_blank_xml, teardown_xml)
-def test_opml_blank_xml():
+def test_02_opml_blank_xml():
 
     try:
         opml = OpmlParser("test.xml")
@@ -69,7 +69,7 @@ def test_opml_blank_xml():
             assert False
 
 @with_setup(setup_good_xml_no_nest, teardown_xml)
-def test_opml_good_xml_no_nest():
+def test_03_opml_good_xml_no_nest():
     
     try:
         opml = OpmlParser("test.xml")
@@ -85,7 +85,7 @@ def test_opml_good_xml_no_nest():
         assert False
 
 @with_setup(setup_good_xml_nest, teardown_xml)
-def test_opml_good_xml_nest():
+def test_04_opml_good_xml_nest():
     
     try:
         opml = OpmlParser("test.xml")
