@@ -15,9 +15,8 @@ class UserDM():
 
     def create(self, user):
         try:
-            salt = app.secret_key
             email = user.email
-            password = Commons.hash_password(user.password,salt)
+            password = Commons.hash_password(user.password)
 
             c = self.db.cursor()
             c.execute("INSERT INTO users(email,password) VALUES(%s,%s)",(email,
@@ -76,12 +75,13 @@ class UserDM():
 
     def change_password(self, email, oldpassword, newpassword):
         try:
-            salt = app.secret_key
-            oldpasswordHash = Commons.hash_password(oldpassword,salt)
-            newpasswordHash = Commons.hash_password(newpassword,salt)
+            #salt = app.secret_key
+            oldpasswordHash = Commons.hash_password(oldpassword)
+            newpasswordHash = Commons.hash_password(newpassword)
 
             currentUser = self.get(email)
-            if currentUser.password != oldpasswordHash:
+
+            if Commons.verify_password(oldpassword, oldpasswordHash):
                 print "Old password doesn't match"
                 return False
             
