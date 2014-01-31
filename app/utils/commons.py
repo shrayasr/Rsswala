@@ -3,7 +3,7 @@ import bcrypt
 class Commons():
 
     @staticmethod
-    def hash_password(password, salt):
+    def hash_password(password):
         print password
         return bcrypt.hashpw(password,bcrypt.gensalt())
 
