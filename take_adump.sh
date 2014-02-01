@@ -12,7 +12,7 @@ fi
 
 display_help ()
 {
-    printf "Usage: $0 mysqlusername [mysqlpassword] \n " && exit -1;
+    printf "Usage: $0 mysqlusername mysqlpassword \n " && exit -1;
 }
 
 if [[ -z "$1" ]]; then
@@ -23,11 +23,9 @@ if [ "$1" = "help" ]; then
     display_help
 fi
 
-PASS="-p"
-
-if [ -n "$2" ]; then
-    PASS=-p"$2"
+if [[ -z "$2" ]]; then
+    display_help
 fi
 
-$MYSQLDUMP -u"$1" $PASS --no-data rsswala | sed 's/ AUTO_INCREMENT=[0-9]*\b//' > ./rsswala.sql
+$MYSQLDUMP -u"$1" -p"$2" --no-data --skip-comments rsswala | sed 's/ AUTO_INCREMENT=[0-9]*\b//' > ./rsswala.sql
 
