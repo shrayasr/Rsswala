@@ -9,4 +9,4 @@ class Commons():
 
     @staticmethod
     def verify_password(raw_password, hashed_password):
-        return hashed_password == bcrypt(raw_password, hashed_password)
+        return hashed_password == bcrypt.hashpw(raw_password, hashed_password)

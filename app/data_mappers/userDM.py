@@ -73,15 +73,15 @@ class UserDM():
             self.db.rollback()
             return None
 
-    def change_password(self, email, oldpassword, newpassword):
+    def change_password(self, email, current_password, newpassword):
         try:
             #salt = app.secret_key
-            oldpasswordHash = Commons.hash_password(oldpassword)
+            current_passwordHash = Commons.hash_password(current_password)
             newpasswordHash = Commons.hash_password(newpassword)
 
             currentUser = self.get(email)
 
-            if Commons.verify_password(oldpassword, oldpasswordHash):
+            if not Commons.verify_password(current_password, current_passwordHash):
                 print "Old password doesn't match"
                 return False
             
